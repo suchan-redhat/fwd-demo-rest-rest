@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class InternalRequest {
 
 	
-	@XmlElement
+	@XmlElement( name="__type")
     @JsonProperty("__type")
     private String type;
 	

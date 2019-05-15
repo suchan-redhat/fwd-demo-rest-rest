@@ -4,7 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.component.jackson.ListJacksonDataFormat;
-import org.apache.camel.converter.jaxb.JaxbDataFormat;
+import org.apache.camel.model.dataformat.JaxbDataFormat;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
 
@@ -187,7 +187,9 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 	public void configure() throws Exception {
 		    //ListJacksonDataFormat format = new ListJacksonDataFormat(); format.setAllowJmsType(true);
 		    JacksonDataFormat format = new JacksonDataFormat(InternalRequest.class); format.setAllowJmsType(true);
-		    //JaxbDataFormat df = new JaxbDataFormat("com.fwd.demo.beans");
+		    JaxbDataFormat df = new JaxbDataFormat();
+		    df.setContextPath(InternalRequest.class.getPackage().getName());
+		    
 		    restConfiguration()
 				.component("spark-rest")
 					.port(18080)
@@ -204,8 +206,8 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 			    .log("unmarshalled body: ${body}")
 			    .log("Connecting to: ${sysenv.FWD_WEB_ENDPOINT}")
 				.routeId("NameWSGet")
-				.marshal(format)
-				//.marshal().jaxb()
+				//.marshal(format)
+				.marshal(df)
 				.log("marshalled body: ${body}")
 				//.removeHeaders("CamelHttp*")
 				//.setHeader(Exchange.HTTP_METHOD, simple("${sysenv.FWD_WEB_METHOD}"))

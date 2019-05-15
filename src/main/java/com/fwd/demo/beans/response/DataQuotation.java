@@ -52,7 +52,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DataQuotation {
 
-	@XmlElement
+	@XmlElement( name="__type")
     @JsonProperty("__type")
     private String type;
 	

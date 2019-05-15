@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PriceInfo {
 
-	@XmlElement
+	@XmlElement( name="__type")
     @JsonProperty("__type")
     private String type;
 	

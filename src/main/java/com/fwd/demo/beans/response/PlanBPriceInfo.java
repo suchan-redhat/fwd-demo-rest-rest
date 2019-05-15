@@ -46,7 +46,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PlanBPriceInfo {
 
-	@XmlElement
+	@XmlElement( name="__type")
     @JsonProperty("__type")
     private String type;
 	
