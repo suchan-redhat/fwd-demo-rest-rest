@@ -3,6 +3,14 @@ package com.fwd.demo.beans.request;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,34 +34,63 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "SelfCover",
     "SpouseCover"
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DataQuotation {
 
+	@XmlElement
     @JsonProperty("__type")
     private String type;
+	
+	@XmlElement
     @JsonProperty("DiscountParty")
     private DiscountParty discountParty;
+	
+	@XmlElement
     @JsonProperty("ChildCover")
     private Boolean childCover;
+	
+	@XmlElement
     @JsonProperty("ChildInput")
     private Integer childInput;
+	
+	@XmlElement
     @JsonProperty("CommencementDateStr")
     private String commencementDateStr;
+	
+	@XmlElement
     @JsonProperty("ExpiryDateStr")
     private String expiryDateStr;
+	
+	@XmlElement
     @JsonProperty("InsuredSummary")
     private InsuredSummary insuredSummary;
+	
+	@XmlElement
     @JsonProperty("OtherInput")
     private Integer otherInput;
+	
+	@XmlElement
     @JsonProperty("Plan")
     private String plan;
+	
+	@XmlElement
     @JsonProperty("PlanB")
     private String planB;
+	
+	@XmlElement
     @JsonProperty("PlanBPriceInfo")
     private PlanBPriceInfo planBPriceInfo;
+	
+	@XmlElement
     @JsonProperty("SelfCover")
     private Boolean selfCover;
+	
+	@XmlElement
     @JsonProperty("SpouseCover")
     private Boolean spouseCover;
+	
+	@XmlTransient
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

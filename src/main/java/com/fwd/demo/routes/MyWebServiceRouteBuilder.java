@@ -2,6 +2,9 @@ package com.fwd.demo.routes;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.jackson.JacksonDataFormat;
+import org.apache.camel.component.jackson.ListJacksonDataFormat;
+import org.apache.camel.converter.jaxb.JaxbDataFormat;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
 
@@ -182,49 +185,56 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
-			restConfiguration()
+		    //ListJacksonDataFormat format = new ListJacksonDataFormat(); format.setAllowJmsType(true);
+		    JacksonDataFormat format = new JacksonDataFormat(InternalRequest.class); format.setAllowJmsType(true);
+		    //JaxbDataFormat df = new JaxbDataFormat("com.fwd.demo.beans");
+		    restConfiguration()
 				.component("spark-rest")
 					.port(18080)
 			;
 			rest("/publisher/name")
 				.post().produces("text/xml").consumes("text/json")
-				.bindingMode(RestBindingMode.auto)
+				//.bindingMode(RestBindingMode.json)
 				//.type(InternalRequest.class).outType(InternalResponse.class)
 					.to("direct:get")
 			;
 			from("direct:get")
-			    .marshal().json(JsonLibrary.Jackson)
-			    .log("body: ${body}")
+			    .unmarshal(format)
+			    //.unmarshal(df)
+			    .log("unmarshalled body: ${body}")
 			    .log("Connecting to: ${sysenv.FWD_WEB_ENDPOINT}")
 				.routeId("NameWSGet")
-				.removeHeaders("CamelHttp*")
-				.setHeader(Exchange.HTTP_METHOD, simple("${sysenv.FWD_WEB_METHOD}"))
-				.toD("${sysenv.FWD_WEB_ENDPOINT}")
-				.choice()
-					.when(header("CamelHttpResponseCode").isEqualTo("204"))
+				.marshal(format)
+				//.marshal().jaxb()
+				.log("marshalled body: ${body}")
+				//.removeHeaders("CamelHttp*")
+				//.setHeader(Exchange.HTTP_METHOD, simple("${sysenv.FWD_WEB_METHOD}"))
+				//.toD("${sysenv.FWD_WEB_ENDPOINT}")
+				//.choice()
+				//	.when(header("CamelHttpResponseCode").isEqualTo("204"))
 						.to("direct:error")
-					.when(header("CamelHttpResponseCode").isEqualTo("200"))
-						.to("direct:ok")
+				//	.when(header("CamelHttpResponseCode").isEqualTo("200"))
+				//		.to("direct:ok")
 				.end()
 			;
 			
 			from("direct:ok")
 				.routeId("OK")
-				.convertBodyTo(String.class)
+				//.convertBodyTo(String.class)
 				//.setHeader("publisher_id", xpath("/publisher/@id", String.class))
-				.removeHeaders("CamelHttp*")
+				//.removeHeaders("CamelHttp*")
 				//.setBody(constant("OK"))
-				.setHeader(Exchange.HTTP_METHOD, constant("GET"))
+				//.setHeader(Exchange.HTTP_METHOD, constant("GET"))
 				//.enrich().simple("http://localhost:8080/bookstore/rest/pub/id/${header.publisher_id}/books").aggregationStrategy(new MyPublisherAggregate())
-				.log("ok")
+				//.log("ok")
 			    .log("body: ${body}")
 
 			;
 			
 			from("direct:error")
-				.routeId("ProcessError")
-				.setBody(constant("Publisher not found."))
-				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant("404"))
+				//.routeId("ProcessError")
+				//.setBody(constant("Publisher not found."))
+				//.setHeader(Exchange.HTTP_RESPONSE_CODE, constant("404"))
 				.log("Error")
 			;
 			

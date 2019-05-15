@@ -3,6 +3,13 @@ package com.fwd.demo.beans.response;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,36 +34,68 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "WithChildPlanCount",
     "WithChildPlanPremium"
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class InsuredSummary {
 
+	
+	@XmlElement
     @JsonProperty("__type")
     private String type;
+	
+	@XmlElement
     @JsonProperty("ChildCount")
     private Integer childCount;
+	
+	@XmlElement
     @JsonProperty("FamilyPlanBPremium")
     private Integer familyPlanBPremium;
+	
+	@XmlElement
     @JsonProperty("FamilyPlanCount")
     private Integer familyPlanCount;
+	
+	@XmlElement
     @JsonProperty("FamilyPlanPremium")
     private Integer familyPlanPremium;
+	
+	@XmlElement
     @JsonProperty("IndividualPlanBPremium")
     private Integer individualPlanBPremium;
+	
+	@XmlElement
     @JsonProperty("IndividualPlanCount")
     private Integer individualPlanCount;
+	
+	@XmlElement
     @JsonProperty("IndividualPlanPremium")
     private Integer individualPlanPremium;
+	
+	@XmlElement
     @JsonProperty("OtherCount")
     private Integer otherCount;
+	
+	@XmlElement
     @JsonProperty("SelfCount")
     private Integer selfCount;
+	
+	@XmlElement
     @JsonProperty("SpouseCount")
     private Integer spouseCount;
+	
+	@XmlElement
     @JsonProperty("WithChildPlanBPremium")
     private Integer withChildPlanBPremium;
+	
+	@XmlElement
     @JsonProperty("WithChildPlanCount")
     private Integer withChildPlanCount;
+	
+	@XmlElement
     @JsonProperty("WithChildPlanPremium")
     private Integer withChildPlanPremium;
+	
+	@XmlTransient
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

@@ -4,6 +4,13 @@ package com.fwd.demo.beans.response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,24 +29,44 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "WarningFlag",
     "WarningMessage"
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Message {
 
+	
+	@XmlElement
     @JsonProperty("ErrorAction")
     private List<Object> errorAction = null;
+	
+	@XmlElement
     @JsonProperty("ErrorFlag")
     private Boolean errorFlag;
+	
+	@XmlElement
     @JsonProperty("ErrorMessage")
     private List<Object> errorMessage = null;
+    
+    @XmlElement
     @JsonProperty("ErrorCode")
     private List<Object> errorCode = null;
+    
+    @XmlElement
     @JsonProperty("InformationFlag")
     private Boolean informationFlag;
+    
+    @XmlElement
     @JsonProperty("InformationMessage")
     private List<Object> informationMessage = null;
+    
+    @XmlElement
     @JsonProperty("WarningFlag")
     private Boolean warningFlag;
+    
+    @XmlElement
     @JsonProperty("WarningMessage")
     private List<Object> warningMessage = null;
+    
+    @XmlTransient
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

@@ -3,6 +3,13 @@ package com.fwd.demo.beans.request;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,10 +21,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "__type"
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PlanBPriceInfo {
 
+	
+	@XmlElement
     @JsonProperty("__type")
     private String type;
+	
+	@XmlTransient
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

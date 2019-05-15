@@ -3,6 +3,13 @@ package com.fwd.demo.beans.response;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -41,64 +48,123 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "SpouseCover",
     "TransactionDateStr"
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DataQuotation {
 
+	@XmlElement
     @JsonProperty("__type")
     private String type;
+	
+	@XmlElement
     @JsonProperty("BusinessSource")
     private Integer businessSource;
+	
+	@XmlElement
     @JsonProperty("DiscountParty")
     private DiscountParty discountParty;
+	
+	@XmlElement
     @JsonProperty("Intermediary")
     private Intermediary intermediary;
+	
+	@XmlElement
     @JsonProperty("IsCommissionOverride")
     private Boolean isCommissionOverride;
+	
+	@XmlElement
     @JsonProperty("PolicyEndorsement")
     private Integer policyEndorsement;
+	
+	@XmlElement
     @JsonProperty("PolicyRenewal")
     private Integer policyRenewal;
+	
+	@XmlElement
     @JsonProperty("PriceInfo")
     private PriceInfo priceInfo;
+	
+	@XmlElement
     @JsonProperty("RequestVer")
     private Integer requestVer;
+	
+	@XmlElement
     @JsonProperty("System")
     private String system;
+	
+	@XmlElement
     @JsonProperty("TransactionStatus")
     private Integer transactionStatus;
+	
+	@XmlElement
     @JsonProperty("eWalletFlag")
     private Boolean eWalletFlag;
+	
+	@XmlElement
     @JsonProperty("ApproveDateStr")
     private String approveDateStr;
+	
+	@XmlElement
     @JsonProperty("ChildCover")
     private Boolean childCover;
+	
+	@XmlElement
     @JsonProperty("ChildInput")
     private Integer childInput;
+	
+	@XmlElement
     @JsonProperty("CommencementDateStr")
     private String commencementDateStr;
+	
+	@XmlElement
     @JsonProperty("Corporate")
     private Boolean corporate;
+	
+	@XmlElement
     @JsonProperty("ExpiryDateStr")
     private String expiryDateStr;
+	
+	@XmlElement
     @JsonProperty("InsuredSummary")
     private InsuredSummary insuredSummary;
+	
+	@XmlElement
     @JsonProperty("IssueDateStr")
     private String issueDateStr;
+	
+	@XmlElement
     @JsonProperty("Noofday")
     private Integer noofday;
+	
+	@XmlElement
     @JsonProperty("OtherInput")
     private Integer otherInput;
+	
+	@XmlElement
     @JsonProperty("Plan")
     private String plan;
+	
+	@XmlElement
     @JsonProperty("PlanB")
     private String planB;
+	
+	@XmlElement
     @JsonProperty("PlanBPriceInfo")
     private PlanBPriceInfo planBPriceInfo;
+	
+	@XmlElement
     @JsonProperty("SelfCover")
     private Boolean selfCover;
+	
+	@XmlElement
     @JsonProperty("SpouseCover")
     private Boolean spouseCover;
+	
+	@XmlElement
     @JsonProperty("TransactionDateStr")
     private String transactionDateStr;
+	
+	@XmlTransient
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

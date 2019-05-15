@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import javax.xml.bind.annotation.*;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -35,53 +37,100 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "CouponAmount",
     "InsuranceLevy"
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PriceInfo {
 
+	@XmlElement
     @JsonProperty("__type")
     private String type;
+	
+	@XmlElement
     @JsonProperty("GrossPremium")
     private Integer grossPremium;
-    @JsonProperty("DirectDiscount")
+	
+	@XmlElement
+	@JsonProperty("DirectDiscount")
     private Integer directDiscount;
-    @JsonProperty("DirectDAmount")
+    
+	@XmlElement
+	@JsonProperty("DirectDAmount")
     private Integer directDAmount;
-    @JsonProperty("SaleDiscount")
+    
+	@XmlElement
+	@JsonProperty("SaleDiscount")
     private Integer saleDiscount;
-    @JsonProperty("SaleDAmount")
+    
+	@XmlElement
+	@JsonProperty("SaleDAmount")
     private Integer saleDAmount;
-    @JsonProperty("Commission")
+   
+	@XmlElement
+	@JsonProperty("Commission")
     private Double commission;
-    @JsonProperty("CommissionAmount")
+    
+	@XmlElement
+	@JsonProperty("CommissionAmount")
     private Double commissionAmount;
-    @JsonProperty("TotalDue")
+    
+	@XmlElement
+	@JsonProperty("TotalDue")
     private Double totalDue;
-    @JsonProperty("AfterCoupon")
+    
+	@XmlElement
+	@JsonProperty("AfterCoupon")
     private Integer afterCoupon;
-    @JsonProperty("CommissionChange")
+    
+	@XmlElement
+	@JsonProperty("CommissionChange")
     private Double commissionChange;
-    @JsonProperty("DirectDiscountChange")
+    
+	@XmlElement
+	@JsonProperty("DirectDiscountChange")
     private Integer directDiscountChange;
-    @JsonProperty("GroupDAmount")
+    
+	@XmlElement
+	@JsonProperty("GroupDAmount")
     private Integer groupDAmount;
-    @JsonProperty("GroupDiscount")
+    
+	@XmlElement
+	@JsonProperty("GroupDiscount")
     private Integer groupDiscount;
-    @JsonProperty("GroupDiscountChange")
+    
+	@XmlElement
+	@JsonProperty("GroupDiscountChange")
     private Integer groupDiscountChange;
-    @JsonProperty("Levy")
+    
+	@XmlElement
+	@JsonProperty("Levy")
     private Integer levy;
-    @JsonProperty("LevyAmount")
+    
+	@XmlElement
+	@JsonProperty("LevyAmount")
     private Integer levyAmount;
-    @JsonProperty("NetPremium")
+    
+	@XmlElement
+	@JsonProperty("NetPremium")
     private Double netPremium;
-    @JsonProperty("Tax")
+    
+	@XmlElement
+	@JsonProperty("Tax")
     private Integer tax;
-    @JsonProperty("TaxAmount")
+    
+	@XmlElement
+	@JsonProperty("TaxAmount")
     private Integer taxAmount;
-    @JsonProperty("CouponAmount")
+    
+	@XmlElement
+	@JsonProperty("CouponAmount")
     private Integer couponAmount;
-    @JsonProperty("InsuranceLevy")
+    
+	@XmlElement
+	@JsonProperty("InsuranceLevy")
     private InsuranceLevy insuranceLevy;
-    @JsonIgnore
+    
+	@XmlTransient
+	@JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("__type")

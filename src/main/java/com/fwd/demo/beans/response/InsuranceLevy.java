@@ -3,6 +3,13 @@ package com.fwd.demo.beans.response;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,18 +25,32 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "LevyEffectiveDate",
     "LevyEffectiveDateStr"
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class InsuranceLevy {
 
+	
+	@XmlElement
     @JsonProperty("LevyAmount")
     private Double levyAmount;
+	
+	@XmlElement
     @JsonProperty("LevyCap")
     private Double levyCap;
+	
+	@XmlElement
     @JsonProperty("LevyRate")
     private Double levyRate;
+	
+	@XmlElement
     @JsonProperty("LevyEffectiveDate")
     private String levyEffectiveDate;
+	
+	@XmlElement
     @JsonProperty("LevyEffectiveDateStr")
     private String levyEffectiveDateStr;
+	
+	@XmlTransient
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

@@ -3,6 +3,13 @@ package com.fwd.demo.beans.request;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,28 +30,52 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "Source",
     "DataQuotation"
 })
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class InternalRequest {
 
+	
+	@XmlElement
     @JsonProperty("__type")
     private String type;
+	
+	@XmlElement
     @JsonProperty("AppFrom")
     private String appFrom;
+	
+	@XmlElement
     @JsonProperty("Channel")
     private String channel;
+	
+	@XmlElement
     @JsonProperty("Company")
     private String company;
+	
+	@XmlElement
     @JsonProperty("Lang")
     private String lang;
+	
+	@XmlElement
     @JsonProperty("ProductName")
     private String productName;
+	
+	@XmlElement
     @JsonProperty("System")
     private String system;
+	
+	@XmlElement
     @JsonProperty("UserID")
     private String userID;
+	
+	@XmlElement
     @JsonProperty("Source")
     private String source;
+	
+	@XmlElement
     @JsonProperty("DataQuotation")
     private DataQuotation dataQuotation;
+	
+	@XmlTransient
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
