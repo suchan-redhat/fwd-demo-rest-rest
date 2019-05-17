@@ -1,9 +1,15 @@
 package com.fwd.demo.routes;
 
+import javax.xml.namespace.QName;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.component.jackson.ListJacksonDataFormat;
+import org.apache.camel.dataformat.soap.SoapJaxbDataFormat;
+import org.apache.camel.dataformat.soap.name.QNameStrategy;
+import org.apache.camel.dataformat.soap.name.ServiceInterfaceStrategy;
+import org.apache.camel.dataformat.soap.name.TypeNameStrategy;
 import org.apache.camel.model.dataformat.JaxbDataFormat;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
@@ -188,6 +194,11 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 		    //ListJacksonDataFormat format = new ListJacksonDataFormat(); format.setAllowJmsType(true);
 		    JacksonDataFormat format = new JacksonDataFormat(InternalRequest.class); format.setAllowJmsType(true);
 		    JaxbDataFormat df = new JaxbDataFormat();
+		    
+		    //ServiceInterfaceStrategy strat =  new ServiceInterfaceStrategy(InternalRequest.class, true);
+		    SoapJaxbDataFormat soapDataFormat = new SoapJaxbDataFormat(InternalRequest.class.getPackage().getName(),
+		    		new QNameStrategy(new QName("http://demo.fwd.com","InternalRequest")) );
+		  
 		    df.setContextPath(InternalRequest.class.getPackage().getName());
 		    
 		    restConfiguration()
@@ -207,7 +218,8 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 			    .log("Connecting to: ${sysenv.FWD_WEB_ENDPOINT}")
 				.routeId("NameWSGet")
 				//.marshal(format)
-				.marshal(df)
+				.marshal(soapDataFormat)
+				//.marshal(df)
 				.log("marshalled body: ${body}")
 				//.removeHeaders("CamelHttp*")
 				//.setHeader(Exchange.HTTP_METHOD, simple("${sysenv.FWD_WEB_METHOD}"))
