@@ -272,7 +272,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 				.setHeader("subject", constant("HTTP Error reported"))
 				.convertBodyTo(String.class)
 				// send the email
-				.to("smtp://myID@localhost?password=&to=myname@mycompany.com")
+				//.to("smtp://myID@localhost?password=&to=myname@mycompany.com")
 			;
 			
 			
