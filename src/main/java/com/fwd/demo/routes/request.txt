@@ -1,7 +1,7 @@
 {
   "__type" : "InputFWDQuote:#FWD.GI.Common.Schema",
   "AppFrom" : "CustomerPortal",
-  "Channel" : "Web",
+  "Channel" : "WEB",
   "Company" : "",
   "Lang" : "EN",
   "ProductName" : "TravelCare",
@@ -30,4 +30,38 @@
     "SelfCover" : true,
     "SpouseCover" : false
   }
+};
+{
+  "__type" : "InputFWDQuote:#FWD.GI.Common.Schema",
+  "AppFrom" : "CustomerPortal1",
+  "Channel" : "APP",
+  "Company" : "",
+  "Lang" : "EN",
+  "ProductName" : "TravelCare1",
+  "System" : "BrokerAPI",
+  "UserID" : "HKyyyy",
+  "Source" : "HKyyyy",
+  "DataQuotation" : {
+    "__type" : "DataQuotation:#FWD.GI.TravelCare.Schema",
+    "DiscountParty" : {
+      "__type" : "DiscountParty:#ING.GI.Product.Schema",
+      "PromoteCode" : ""
+    },
+    "ChildCover" : false,
+    "ChildInput" : 0,
+    "CommencementDateStr" : "09/05/2019",
+    "ExpiryDateStr" : "11/05/2019",
+    "InsuredSummary" : {
+      "__type" : "InsuredSummary:#FWD.GI.TravelCare.Schema"
+    },
+    "OtherInput" : 0,
+    "Plan" : "A",
+    "PlanB" : "B",
+    "PlanBPriceInfo" : {
+      "__type" : "PriceInfo:#ING.GI.Product.Schema"
+    },
+    "SelfCover" : true,
+    "SpouseCover" : false
+  }
 }
+

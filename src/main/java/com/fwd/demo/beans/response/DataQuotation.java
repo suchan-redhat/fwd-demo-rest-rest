@@ -194,7 +194,7 @@ public class DataQuotation {
     }
 
     @JsonProperty("DiscountParty")
-    public void setDiscountParty(DiscountParty discountParty) {
+    public void setDiscountParty(com.fwd.demo.beans.response.DiscountParty discountParty) {
         this.discountParty = discountParty;
     }
 

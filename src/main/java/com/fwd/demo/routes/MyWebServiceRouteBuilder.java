@@ -1,5 +1,6 @@
 package com.fwd.demo.routes;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -20,6 +21,7 @@ import org.apache.camel.model.rest.RestBindingMode;
 
 import com.fwd.demo.beans.request.InternalRequest;
 import com.fwd.demo.beans.response.InternalResponse;
+import com.sun.xml.bind.v2.schemagen.xmlschema.List;
 
 /**
  * 
@@ -193,13 +195,34 @@ Internal Response
  */
 
 public class MyWebServiceRouteBuilder extends RouteBuilder {
-	public class Car {
+	public boolean requestChecking(InternalRequest request) {
 		 
-	    private String color;
-	    private String type;
-	 
-	    // standard getters setters
+	     if((null==request.getAppFrom())||request.getAppFrom().isEmpty()){
+	    	 return true;
+	     }
+	     if((null==request.getChannel())||request.getChannel().isEmpty()){
+	    	 return true;
+	     }
+	     if((null==request.getLang())||request.getLang().isEmpty()){
+	    	 return true;
+	     }
+	     if((null==request.getProductName())||request.getProductName().isEmpty()){
+	    	 return true;
+	     }
+	     if((null==request.getSource())||request.getSource().isEmpty()){
+	    	 return true;
+	     }
+	     if((null==request.getSystem())||request.getSystem().isEmpty()){
+	    	 return true;
+	     }
+	     if((null==request.getDataQuotation())){
+	    	 return true;
+	     }
+	    return false;
 	}
+	
+
+	
 	@Override
 	public void configure() throws Exception {
 		
@@ -207,10 +230,10 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 //		    onException(org.apache.camel.http.common.HttpOperationFailedException.class)
 //		    .handled(true)
 //		    .log("error");
+			ResponseService responseService =new ResponseService();
 		    
-		    //ListJacksonDataFormat format = new ListJacksonDataFormat(); format.setAllowJmsType(true);
 		    JacksonDataFormat format = new JacksonDataFormat(InternalRequest.class); format.setAllowJmsType(true);
-
+		    
 		    //JaxbDataFormat df = new JaxbDataFormat();
 		    
 		    //ServiceInterfaceStrategy strat =  new ServiceInterfaceStrategy(InternalRequest.class, true);
@@ -226,6 +249,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 			rest("/publisher/name")
 				.post()
 				.produces("application/json")
+				
 				//.consumes("text/json")
 				//.bindingMode(RestBindingMode.json)
 				//.type(InternalRequest.class).outType(InternalResponse.class)
@@ -233,19 +257,38 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 			;
 			
 			from("direct:processing")
-				
+				.log("b4 unsplit body: ${body}")
+				.split(body().tokenize(";"))
+				.to("direct:marshal_format")
+						    //.log("Connecting to: ${sysenv.FWD_WEB_ENDPOINT}")
+							//.routeId("NameWSGet")
+							//.marshal(format)
+							//.marshal(soapDataFormat)
+							//.marshal(df)
+							//.log("marshalled body: ${body}")
+			;
+			from("direct:marshal_format")
 				.log("b4 umarshalled body: ${body}")
-			    .unmarshal(format)
-			    //.unmarshal(df)
-			    .log("${body}")
-			    //.log("Connecting to: ${sysenv.FWD_WEB_ENDPOINT}")
-				//.routeId("NameWSGet")
-				//.marshal(format)
-				//.marshal(soapDataFormat)
-				//.marshal(df)
-				//.log("marshalled body: ${body}")
-			    
-			   .to("direct:otherEndPoint")
+				.unmarshal(format)
+				.log("${body}")
+				.to("direct:ConvertResponse")
+			;
+			from("direct:requestCheck")
+				//this part is checing the request contain null input or not
+				.bean(MyWebServiceRouteBuilder.class,"requestChecking(${body})")
+				//.log("checked ${body}")				
+				.choice()
+					.when(simple("${body}"))
+						//if true means contain null input
+						.log("some input are missing")
+					.otherwise()
+						.to("direct:ConvertResponse")
+			;
+			
+			from("direct:ConvertResponse")
+				.bean(ResponseService.class,"requestToResponse(${body})")
+				.log("response body ${body}")
+				.to("direct:otherEndPoint")
 			;
 			
 			from("direct:otherEndPoint")
@@ -272,7 +315,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 				.setHeader("subject", constant("HTTP Error reported"))
 				.convertBodyTo(String.class)
 				// send the email
-				//.to("smtp://myID@localhost?password=&to=myname@mycompany.com")
+				//.to("smtp://redhatfwdcamel@hotmail.com?password=redh@t123&to=myname@mycompany.com")
 			;
 			
 			
