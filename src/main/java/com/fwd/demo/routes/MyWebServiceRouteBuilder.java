@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
-
+import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
@@ -257,28 +257,31 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 				.to("direct:marshal_format")
 			;
 			
-			from("direct:processing")
-				.log("b4 unsplit body: ${body}")
-				.split(body().tokenize(";"))
-				.to("direct:marshal_format")						    
-			;
+			//from("direct:processing")
+				//.log("b4 unsplit body: ${body}")
+				//.split(body().tokenize(";"))
+				//.aggregate(constant(true), batchAggregationStrategy())
+				//.to("direct:marshal_format")
+				
+			//;
 			from("direct:marshal_format")
+				.routeId("unmarshal_body")
 				.log("b4 umarshalled body: ${body}")
 				.unmarshal(format)
 				.log("${body}")
 				.to("direct:ConvertResponse")
 			;
-			from("direct:requestCheck")
+			//from("direct:requestCheck")
 				//this part is checing the request contain null input or not
-				.bean(MyWebServiceRouteBuilder.class,"requestChecking(${body})")
+			//	.bean(MyWebServiceRouteBuilder.class,"requestChecking(${body})")
 				//.log("checked ${body}")				
-				.choice()
-					.when(simple("${body}"))
+			//	.choice()
+			//		.when(simple("${body}"))
 						//if true means contain null input
-						.log("some input are missing")
-					.otherwise()
-						.to("direct:ConvertResponse")
-			;
+				//		.log("some input are missing")
+					//.otherwise()
+						//.to("direct:ConvertResponse")
+			//;
 			
 			from("direct:ConvertResponse")
 				.routeId("convertRespoense")
