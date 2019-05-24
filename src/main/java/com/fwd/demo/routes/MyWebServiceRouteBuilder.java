@@ -246,26 +246,21 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 				.component("spark-rest")
 					.port(18080)
 			;
-			rest("/publisher/name")
+			rest("/rest_to_rest")
 				.post()
 				.produces("application/json")
 				
 				//.consumes("text/json")
 				//.bindingMode(RestBindingMode.json)
 				//.type(InternalRequest.class).outType(InternalResponse.class)
-				.to("direct:processing")
+				//.to("direct:processing")
+				.to("direct:marshal_format")
 			;
 			
 			from("direct:processing")
 				.log("b4 unsplit body: ${body}")
 				.split(body().tokenize(";"))
-				.to("direct:marshal_format")
-						    //.log("Connecting to: ${sysenv.FWD_WEB_ENDPOINT}")
-							//.routeId("NameWSGet")
-							//.marshal(format)
-							//.marshal(soapDataFormat)
-							//.marshal(df)
-							//.log("marshalled body: ${body}")
+				.to("direct:marshal_format")						    
 			;
 			from("direct:marshal_format")
 				.log("b4 umarshalled body: ${body}")
@@ -286,6 +281,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 			;
 			
 			from("direct:ConvertResponse")
+				.routeId("convertRespoense")
 				.bean(ResponseService.class,"requestToResponse(${body})")
 				.log("response body ${body}")
 				.to("direct:otherEndPoint")
@@ -300,6 +296,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 				.setHeader(Exchange.HTTP_METHOD,simple("${sysenv.FWD_WEB_METHOD}"))
 				.doTry()
 				   .toD("${sysenv.FWD_WEB_ENDPOINT}").setExchangePattern(ExchangePattern.InOut)
+				   //.log("2222end point")
 				   .convertBodyTo(String.class)
 				 .doCatch(Exception.class)
 				    .setBody(simple("${header.CamelHttpResponseCode} ERROR"))
