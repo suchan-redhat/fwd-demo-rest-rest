@@ -304,6 +304,7 @@ public class MyWebServiceRouteBuilder extends RouteBuilder {
 				 .doCatch(Exception.class)
 				    .setBody(simple("${header.CamelHttpResponseCode} ERROR"))
 				    .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("500"))
+				    .log("exception ")
 				    .to("direct:HTTPError")
 				 .doFinally()
 				 	.log("end body: ${body}")
